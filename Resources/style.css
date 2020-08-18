@@ -15,6 +15,12 @@ body {
 	padding:2px;
 	height:22px;
 }
+
+#clear-btn {
+	color: #fff;
+    	float: right;
+    	margin-right: 20px;     
+}
 	
 #text {
 	background-color: #000;

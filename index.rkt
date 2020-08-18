@@ -27,7 +27,10 @@
             });")
         (body
          (div ((class "title"))
-              (span "Scheme Console"))
+              (span "Scheme Console")
+              (a ((id "clear-btn" )
+                  (href ,(embed/url clear-handler)))
+                 "Clear"))
          (div ((id "text"))
               (div ((class "help"))
                    ,(to-string (help)))
@@ -48,6 +51,9 @@
            [result (evaluate command)])
       (history-append! a-history (record command result))
       (render-console-page a-history request)))
+
+  (define (clear-handler request)
+    (render-console-page (history null) request))
   
   (send/suspend/dispatch response-generator))
 
