@@ -30,7 +30,7 @@
               (span "Scheme Console"))
          (div ((id "text"))
               (div ((class "help"))
-                   ,(help))
+                   ,(to-string (help)))
               (br)
               ,(render-history a-history)
               (br)

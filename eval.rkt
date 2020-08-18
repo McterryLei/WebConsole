@@ -16,9 +16,9 @@
   (define (render-help cmd desc)
     `(li (span ((class "help-cmd")) ,cmd) (spac ,desc)))
 
-  `(ul
-    (li "Available commands :")
-    ,(render-help "(help)" "Show help message")))
+  (html-tag `(ul
+              (li "Available commands :")
+              ,(render-help "(help)" "Show help message"))))
 
 ;;;
 ;;; Evaluate the expression with namespace of current module.
@@ -29,10 +29,18 @@
   (with-handlers ([exn? exn-message])
     (eval (with-input-from-string expr read) NS)))
 
+(define (html-tag item)
+  (cons 'html item))
+
+(define (html-tag? item)
+  (if (list? item)
+      (eq? 'html (car item))
+      false))
+
 ;; Convert value to string 
 (define (to-string val)
   (cond
     ((string? val) val)
-    ((list? val)   val)
+    ((html-tag? val) (cdr val))
     (else (with-output-to-string
             (λ () (print val))))))
