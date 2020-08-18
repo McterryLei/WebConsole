@@ -58,11 +58,4 @@
         [result  (record-result a-record)])
     `(ul
       (li ,(string-append "> " command))
-      (li ,(to-string result)))))                     
-
-                           
-  
-
-
-
-   
+      (li ,(to-string result))))) 
