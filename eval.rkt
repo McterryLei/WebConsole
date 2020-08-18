@@ -13,12 +13,16 @@
 ;;; Below define functions that can be called in web console
 ;;;
 (define (help)
-  (define (render-help cmd desc)
-    `(li (span ((class "help-cmd")) ,cmd) (spac ,desc)))
+  (define commands
+    (list (cons "(help)" "Show help message")))
+                         
+  (define (render-line item)
+    `(li (span ((class "help-cmd")) ,(car item))
+         (span ,(cdr item))))
 
   (html-tag `(ul
               (li "Available commands :")
-              ,(render-help "(help)" "Show help message"))))
+              ,@(map render-line commands))))
 
 ;;;
 ;;; Evaluate the expression with namespace of current module.
@@ -29,14 +33,6 @@
   (with-handlers ([exn? exn-message])
     (eval (with-input-from-string expr read) NS)))
 
-(define (html-tag item)
-  (cons 'html item))
-
-(define (html-tag? item)
-  (if (list? item)
-      (eq? 'html (car item))
-      false))
-
 ;; Convert value to string 
 (define (to-string val)
   (cond
@@ -44,3 +40,13 @@
     ((html-tag? val) (cdr val))
     (else (with-output-to-string
             (λ () (print val))))))
+
+;; Add html tag to item
+(define (html-tag item)
+  (cons 'html item))
+
+;; Check if contains html tag
+(define (html-tag? item)
+  (if (list? item)
+      (eq? 'html (car item))
+      false))
