@@ -13,9 +13,12 @@
 ;;; Below define functions that can be called in web console
 ;;;
 (define (help)
+  (define (render-help cmd desc)
+    `(li (span ((class "help-cmd")) ,cmd) (spac ,desc)))
+
   `(ul
     (li "Available commands :")
-    (li (span ((class "help-cmd")) "(help)") (span "Show help message"))))
+    ,(render-help "(help)" "Show help message")))
 
 ;;;
 ;;; Evaluate the expression with namespace of current module.
