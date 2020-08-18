@@ -2,13 +2,23 @@
 
 ;; Export functions
 (provide evaluate
-         to-string)
+         to-string
+         help)
 
 ;; Make namespace for eval
-(define NS (make-base-namespace))
+(define-namespace-anchor na)
+(define NS (namespace-anchor->namespace na))
 
 ;;;
-;;; Evaluate the expression.
+;;; Below define functions that can be called in web console
+;;;
+(define (help)
+  `(ul
+    (li "Available commands :")
+    (li (span ((class "help-cmd")) "(help)") (span "Show help message"))))
+
+;;;
+;;; Evaluate the expression with namespace of current module.
 ;;;
 ;;; If success, return the expression value.
 ;;; If error, return the error message.
@@ -18,7 +28,8 @@
 
 ;; Convert value to string 
 (define (to-string val)
-  (if (string? val)
-      val
-      (with-output-to-string
-        (λ () (print val)))))
+  (cond
+    ((string? val) val)
+    ((list? val)   val)
+    (else (with-output-to-string
+            (λ () (print val))))))

@@ -29,6 +29,9 @@
          (div ((class "title"))
               (span "Scheme Console"))
          (div ((id "text"))
+              (div ((class "help"))
+                   ,(help))
+              (br)
               ,(render-history a-history)
               (br)
               (form ((action

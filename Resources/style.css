@@ -13,7 +13,7 @@ body {
 .title {
 	background-color:#08246B;
 	padding:2px;
-	height:22px
+	height:22px;
 }
 
 .window {
@@ -24,13 +24,13 @@ body {
 	position:absolute;
 	top:40px;
 	left:68px;
-	overflow:hidden
+	overflow:hidden;
 }
 	
 #text {
-	background-color:#000;
+	background-color: #000;
 	border-top:#ccc outset 2px;
-	height:600px
+	height: 600px;
 	overflow-y:scroll;
 }
 	
@@ -45,7 +45,13 @@ input {
 	border:0;
 	color:#fff;
         font:"微软雅黑";
-	font-size:16px;
+	font-size:14px;
 	outline:none;
-	width:100%
+	width:100%;
+}
+
+.help-cmd {
+	display: inline-block;
+	width: 200px;
+	margin-left: 16px;
 }
