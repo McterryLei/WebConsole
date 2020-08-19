@@ -24,6 +24,9 @@
               (li "Available commands :")
               ,@(map render-line commands))))
 
+(define (hello name)
+  (printf "Hello        ~a\n" name))
+
 ;;;
 ;;; Evaluate the expression string with namespace of current module.
 ;;;

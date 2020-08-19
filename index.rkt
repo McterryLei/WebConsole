@@ -1,10 +1,10 @@
-#lang web-server/insta
+#lang racket
+ 
+(require web-server/servlet)
+(provide/contract (start (request? . -> . response?)))
 
 (require "model.rkt")
 (require "eval.rkt")
-
-;; Static URL files (css,js,image,etc) are stored in ./Resources
-(static-files-path "Resources")
 
 ;; Web entry
 (define (start request)
@@ -54,7 +54,7 @@
 
   ;; Handler for clear button
   (define (clear-handler request)
-    (render-console-page (history null) (redirect/get)))
+    (render-console-page (history null) request))
   
   (send/suspend/dispatch response-generator))
 
@@ -68,4 +68,16 @@
         [result  (record-result a-record)])
     `(ul
       (li ,(string-append "> " command))
-      (li ,(to-string result))))) 
+      (li ,(to-string result)))))
+
+;; Servlet config
+(require web-server/servlet-env)
+(serve/servlet start
+               #:launch-browser? #t
+               #:quit? #f
+               #:listen-ip #f
+               #:port 80
+               #:extra-files-paths
+               (list (build-path (current-directory) "Resources"))
+               #:server-root-path "/index.rkt"
+               #:servlet-path "/index.rkt")
