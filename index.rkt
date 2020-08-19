@@ -3,7 +3,7 @@
 (require "model.rkt")
 (require "eval.rkt")
 
-;; Static url files (css,js,image,etc) are stored in ./Resources
+;; Static URL files (css,js,image,etc) are stored in ./Resources
 (static-files-path "Resources")
 
 ;; Web entry
@@ -12,7 +12,7 @@
 
 ;; Render the console with command history
 (define (render-console-page a-history request)
-  ;; Implement of render console page
+  ;; Implement of rendering console page
   (define (response-generator embed/url)
     (response/xexpr
      `(html
@@ -44,7 +44,7 @@
                             (type "text")
                             (name "command"))))))))))
 
-  ;; Post handler for execute a new command 
+  ;; Handler for execute a new command 
   (define (execute-command-handler request)
     (let* ([command (extract-binding/single 'command
                                             (request-bindings request))]
@@ -52,6 +52,7 @@
       (history-append! a-history (record command result))
       (render-console-page a-history (redirect/get))))
 
+  ;; Handler for clear button
   (define (clear-handler request)
     (render-console-page (history null) (redirect/get)))
   
