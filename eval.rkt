@@ -25,17 +25,34 @@
               ,@(map render-line commands))))
 
 ;;;
-;;; Evaluate the expression with namespace of current module.
+;;; Evaluate the expression string with namespace of current module.
 ;;;
 ;;; If success, return the expression value.
 ;;; If error, return the error message.
 (define (evaluate expr)
-  (with-handlers ([exn? exn-message])
-    (eval (with-input-from-string expr read) NS)))
+  (define (do-eval)
+    (with-handlers ([exn? exn-message])
+        (eval (with-input-from-string expr read) NS)))
 
+  (define result null)
+  (define output
+    (with-output-to-string
+      (lambda () (set! result (do-eval)))))
+  
+  (if (html-tag? result)
+      result
+      (string->ul (string-append output (to-string result)))))
+
+(define (string->ul str)    
+  (let ([lines (string-split str "\n")])
+    (html-tag
+     `(ul
+       ,@(map (λ (s) `(li ,s)) lines)))))
+  
 ;; Convert value to string 
 (define (to-string val)
   (cond
+    ((void? val) "")
     ((string? val) val)
     ((html-tag? val) (cdr val))
     (else (with-output-to-string

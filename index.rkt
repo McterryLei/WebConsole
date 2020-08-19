@@ -50,10 +50,10 @@
                                             (request-bindings request))]
            [result (evaluate command)])
       (history-append! a-history (record command result))
-      (render-console-page a-history request)))
+      (render-console-page a-history (redirect/get)))))
 
   (define (clear-handler request)
-    (render-console-page (history null) request))
+    (render-console-page (history null) (redirect/get)))
   
   (send/suspend/dispatch response-generator))
 
